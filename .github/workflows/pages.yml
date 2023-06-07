@@ -44,7 +44,7 @@ jobs:
               echo -e "\`\`\`";
               echo "[Live Editor](https://mermaid.live/edit?code=https://raw.githubusercontent.com/${{ github.repository }}/main/${file})";
             done \
-            >> docs/{repository}.md
+            >> docs/erdiagrams/${repository}.md
           done
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
