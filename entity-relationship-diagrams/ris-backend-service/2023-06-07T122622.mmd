@@ -1,0 +1,436 @@
+erDiagram
+    articles {
+        uuid guid 
+        character_varying title 
+        character_varying marker 
+        integer id PK
+        integer norm_id 
+    }
+
+    deviating_decision_date {
+        bigint id PK
+        bigint document_unit_id FK
+        timestamp_without_time_zone decision_date 
+    }
+
+    deviating_ecli {
+        bigint id PK
+        bigint document_unit_id FK
+        character_varying ecli 
+    }
+
+    doc_unit {
+        bigint id PK
+        uuid uuid 
+        character_varying documentnumber 
+        timestamp_with_time_zone creationtimestamp 
+        timestamp_with_time_zone fileuploadtimestamp 
+        character_varying s3path 
+        character_varying filetype 
+        character_varying filename 
+        character_varying gerichtstyp 
+        character_varying vorgang 
+        character_varying ecli 
+        character_varying spruchkoerper 
+        character_varying entscheidungsdatum 
+        character_varying gerichtssitz 
+        character_varying rechtskraft 
+        character_varying eingangsart 
+        character_varying region 
+        text entscheidungsname 
+        text titelzeile 
+        text leitsatz 
+        text orientierungssatz 
+        text tenor 
+        text gruende 
+        text tatbestand 
+        text entscheidungsgruende 
+        bigint document_type_id 
+        timestamp_with_time_zone decision_date 
+        character_varying data_source 
+        boolean date_known 
+        uuid documentation_office_id FK
+    }
+
+    document_category {
+        uuid id PK
+        character label 
+    }
+
+    document_number_counter {
+        integer id PK
+        integer nextnumber 
+        integer currentyear 
+    }
+
+    document_type {
+        uuid id PK
+        character_varying abbreviation 
+        character_varying label 
+        boolean multiple 
+        character_varying super_label_1 
+        character_varying super_label_2 
+        uuid document_category_id FK
+    }
+
+    document_unit_field_of_law {
+        bigint id PK
+        bigint document_unit_id FK
+        bigint field_of_law_id FK
+    }
+
+    document_unit_norm {
+        bigint id PK
+        bigint document_unit_id FK
+        character_varying single_norm 
+        timestamp_with_time_zone date_of_version 
+        character_varying date_of_relevance 
+        character_varying norm_abbreviation_uuid 
+    }
+
+    document_unit_status {
+        uuid id PK
+        timestamp_without_time_zone created_at 
+        character_varying status 
+        uuid document_unit_id FK
+    }
+
+    documentation_office {
+        uuid id PK
+        character_varying label 
+        character_varying abbreviation 
+    }
+
+    file_number {
+        bigint id PK
+        bigint document_unit_id FK
+        character_varying file_number 
+        boolean is_deviating 
+    }
+
+    files {
+        integer id PK
+        character_varying hash 
+        character_varying name 
+        integer norm_id 
+        timestamp_without_time_zone created_at 
+    }
+
+    flyway_schema_history {
+        integer installed_rank PK
+        character_varying version 
+        character_varying description 
+        character_varying type 
+        character_varying script 
+        integer checksum 
+        character_varying installed_by 
+        timestamp_without_time_zone installed_on 
+        integer execution_time 
+        boolean success 
+    }
+
+    incorrect_court {
+        bigint id PK
+        bigint document_unit_id FK
+        character_varying court 
+    }
+
+    keyword {
+        bigint id PK
+        bigint document_unit_id FK
+        text keyword 
+    }
+
+    lookuptable_court {
+        bigint id PK
+        character_varying changedatemail 
+        character_varying changedateclient 
+        character changeindicator 
+        character_varying version 
+        character_varying courttype 
+        character_varying courtlocation 
+        character_varying field 
+        character_varying superiorcourt 
+        character_varying foreigncountry 
+        character_varying region 
+        character_varying federalstate 
+        character_varying belongsto 
+        character_varying street 
+        character_varying zipcode 
+        character_varying maillocation 
+        character_varying phone 
+        character_varying fax 
+        character_varying postofficebox 
+        character_varying postofficeboxzipcode 
+        character_varying postofficeboxlocation 
+        character_varying email 
+        character_varying internet 
+        character_varying isbranchofficeto 
+        character_varying earlycourtname 
+        character_varying latecourtname 
+        character_varying currentofficialcourtname 
+        character_varying traditionalcourtname 
+        character_varying existingbranchoffice 
+        character_varying abandonedbranchoffice 
+        character_varying contactperson 
+        character_varying deliverslrs 
+        character_varying remark 
+        character_varying additional 
+        character_varying existencedate 
+        character_varying cancellationdate 
+    }
+
+    lookuptable_documenttype {
+        bigint id PK
+        character_varying change_date_mail 
+        character_varying change_date_client 
+        character change_indicator 
+        character_varying version 
+        character_varying juris_shortcut 
+        character document_type 
+        character_varying multiple 
+        character_varying label 
+        character_varying superlabel1 
+        character_varying superlabel2 
+    }
+
+    lookuptable_field_of_law {
+        bigint id PK
+        bigint parent_id FK
+        character_varying change_date_mail 
+        character_varying change_date_client 
+        character change_indicator 
+        character_varying version 
+        character_varying identifier 
+        character_varying text 
+        character_varying navigation_term 
+        bigint children_count 
+    }
+
+    lookuptable_field_of_law_keyword {
+        bigint id PK
+        bigint field_of_law_id FK
+        character_varying value 
+    }
+
+    lookuptable_field_of_law_link {
+        bigint id PK
+        bigint field_of_law_id FK
+        bigint linked_field_of_law_id FK
+    }
+
+    lookuptable_field_of_law_norm {
+        bigint id PK
+        bigint field_of_law_id FK
+        character_varying abbreviation 
+        character_varying single_norm_description 
+    }
+
+    lookuptable_state {
+        bigint id PK
+        character changeindicator 
+        character_varying version 
+        character_varying jurisshortcut 
+        character_varying label 
+    }
+
+    metadata {
+        integer id PK
+        text value 
+        character_varying type 
+        integer order_number 
+        integer section_id 
+        uuid guid 
+        uuid section_guid 
+    }
+
+    metadata_sections {
+        integer id PK
+        character_varying name 
+        integer norm_id 
+        integer section_id 
+        integer order_number 
+        uuid guid 
+    }
+
+    norm_abbreviation {
+        uuid id PK
+        character_varying abbreviation 
+        date decision_date 
+        integer document_id 
+        character_varying document_number 
+        character_varying official_letter_abbreviation 
+        text official_long_title 
+        text official_short_title 
+        character source 
+    }
+
+    norm_abbreviation_document_type {
+        uuid norm_abbreviation_id PK
+        uuid document_type_id PK
+    }
+
+    norm_abbreviation_region {
+        uuid norm_abbreviation_id PK
+        uuid region_id PK
+    }
+
+    norm_element {
+        uuid id PK
+        character_varying label 
+        boolean has_number_designation 
+        character_varying norm_code 
+        uuid document_category_id FK
+    }
+
+    norms {
+        uuid guid 
+        text official_long_title 
+        integer id PK
+        text official_short_title 
+        text official_abbreviation 
+        date publication_date 
+        date announcement_date 
+        text ris_abbreviation 
+        text document_number 
+        text document_category 
+        date entry_into_force_date 
+        character_varying entry_into_force_date_state 
+        date principle_entry_into_force_date 
+        character_varying principle_entry_into_force_date_state 
+        date expiration_date 
+        character_varying expiration_date_state 
+        boolean is_expiration_date_temp 
+        date principle_expiration_date 
+        character_varying principle_expiration_date_state 
+        text print_announcement_gazette 
+        text print_announcement_year 
+        text print_announcement_number 
+        text print_announcement_page 
+        text print_announcement_info 
+        text print_announcement_explanations 
+        text digital_announcement_medium 
+        date digital_announcement_date 
+        text digital_announcement_edition 
+        text digital_announcement_year 
+        text digital_announcement_page 
+        text digital_announcement_area 
+        text digital_announcement_area_number 
+        text digital_announcement_info 
+        text digital_announcement_explanations 
+        text eu_announcement_gazette 
+        text eu_announcement_year 
+        text eu_announcement_series 
+        text eu_announcement_number 
+        text eu_announcement_page 
+        text eu_announcement_info 
+        text eu_announcement_explanations 
+        text other_official_announcement 
+        text complete_citation 
+        text status_note 
+        text status_description 
+        date status_date 
+        text status_reference 
+        text repeal_note 
+        text repeal_article 
+        date repeal_date 
+        text repeal_references 
+        text reissue_note 
+        text reissue_article 
+        date reissue_date 
+        text reissue_reference 
+        text other_status_note 
+        text document_status_work_note 
+        text document_status_description 
+        date document_status_date 
+        text document_status_reference 
+        date document_status_entry_into_force_date 
+        text document_status_proof 
+        text document_text_proof 
+        text other_document_note 
+        text application_scope_area 
+        date application_scope_start_date 
+        date application_scope_end_date 
+        text other_footnote 
+        text digital_evidence_link 
+        text digital_evidence_related_data 
+        text digital_evidence_external_data_note 
+        text digital_evidence_appendix 
+        text celex_number 
+        text text 
+        text footnote_change 
+        text footnote_comment 
+        text footnote_decision 
+        text footnote_state_law 
+        text footnote_eu_law 
+    }
+
+    paragraphs {
+        uuid guid 
+        text text 
+        character_varying marker 
+        integer id PK
+        integer article_id 
+    }
+
+    previous_decision {
+        bigint id PK
+        character_varying court_type 
+        character_varying court_location 
+        character_varying decision_date 
+        character_varying file_number 
+        character_varying document_number FK
+        bigint document_unit_id FK
+        timestamp_with_time_zone decision_date_timestamp 
+    }
+
+    proceeding_decision_link {
+        bigint id 
+        bigint parent_document_unit_id FK
+        bigint child_document_unit_id FK
+    }
+
+    region {
+        uuid id PK
+        character_varying code 
+        character_varying label 
+    }
+
+    xml_mail {
+        bigint id PK
+        bigint document_unit_id 
+        character_varying mail_subject 
+        text xml 
+        character_varying status_code 
+        text status_messages 
+        character_varying file_name 
+        timestamp_without_time_zone publish_date 
+        character_varying receiver_address 
+        character_varying publish_state 
+    }
+
+    deviating_decision_date }o--|| doc_unit : "document_unit_id"
+    deviating_ecli }o--|| doc_unit : "document_unit_id"
+    previous_decision }o--|| doc_unit : "document_number"
+    file_number }o--|| doc_unit : "document_unit_id"
+    previous_decision }o--|| doc_unit : "document_unit_id"
+    incorrect_court }o--|| doc_unit : "document_unit_id"
+    document_unit_status }o--|| doc_unit : "document_unit_id"
+    document_unit_norm }o--|| doc_unit : "document_unit_id"
+    keyword }o--|| doc_unit : "document_unit_id"
+    document_unit_field_of_law }o--|| doc_unit : "document_unit_id"
+    proceeding_decision_link }o--|| doc_unit : "parent_document_unit_id"
+    proceeding_decision_link }o--|| doc_unit : "child_document_unit_id"
+    doc_unit }o--|| documentation_office : "documentation_office_id"
+    norm_element }o--|| document_category : "document_category_id"
+    document_type }o--|| document_category : "document_category_id"
+    norm_abbreviation_document_type }o--|| document_type : "document_type_id"
+    document_unit_field_of_law }o--|| lookuptable_field_of_law : "field_of_law_id"
+    lookuptable_field_of_law }o--|| lookuptable_field_of_law : "parent_id"
+    lookuptable_field_of_law_keyword }o--|| lookuptable_field_of_law : "field_of_law_id"
+    lookuptable_field_of_law_norm }o--|| lookuptable_field_of_law : "field_of_law_id"
+    lookuptable_field_of_law_link }o--|| lookuptable_field_of_law : "field_of_law_id"
+    lookuptable_field_of_law_link }o--|| lookuptable_field_of_law : "linked_field_of_law_id"
+    norm_abbreviation_region }o--|| norm_abbreviation : "norm_abbreviation_id"
+    norm_abbreviation_document_type }o--|| norm_abbreviation : "norm_abbreviation_id"
+    norm_abbreviation_region }o--|| region : "region_id"
