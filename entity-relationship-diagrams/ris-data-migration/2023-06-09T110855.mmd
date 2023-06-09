@@ -1,0 +1,239 @@
+erDiagram
+    address {
+        uuid id PK
+        character_varying city 
+        character_varying email 
+        character_varying fax_number 
+        character_varying phone_number 
+        character_varying post_office_box 
+        character_varying post_office_box_location 
+        character_varying post_office_box_postal_code 
+        character_varying postal_code 
+        character_varying street 
+        character_varying url 
+    }
+
+    court {
+        uuid id PK
+        character_varying additional_information 
+        character_varying belongs_to 
+        character_varying belongs_to_branch 
+        boolean can_deliver_lrs 
+        character_varying current_branch 
+        character_varying deprecated_branch 
+        date deprecated_since 
+        character_varying early_name 
+        date exists_since 
+        character_varying field 
+        boolean is_foreign_court 
+        boolean is_superior_court 
+        integer juris_id 
+        character_varying late_name 
+        character_varying location 
+        character_varying official_name 
+        character_varying remark 
+        character_varying traditional_name 
+        character_varying type 
+        uuid address_id FK
+    }
+
+    court_judicial_body {
+        uuid court_id PK
+        uuid judicial_body_id PK
+    }
+
+    court_region {
+        uuid court_id PK
+        uuid region_id PK
+    }
+
+    court_synonym {
+        uuid court_id PK
+        uuid synonym_id PK
+    }
+
+    decision_grounds {
+        text value 
+        uuid documentation_unit_id FK
+    }
+
+    document_category {
+        uuid id PK
+        character_varying label 
+    }
+
+    document_type {
+        uuid id PK
+        character_varying abbreviation 
+        character_varying label 
+        boolean multiple 
+        character_varying super_label_1 
+        character_varying super_label_2 
+        uuid document_category_id FK
+    }
+
+    documentation_office {
+        uuid id PK
+        character_varying abbreviation 
+    }
+
+    documentation_unit {
+        uuid id PK
+        date decision_date 
+        character_varying document_number 
+        uuid document_type_id FK
+        uuid documentation_office_id FK
+        character_varying ecli 
+        character_varying judicial_body 
+        character_varying procedure 
+    }
+
+    documentation_unit_keyword {
+        uuid documentation_unit_id PK
+        uuid keyword_id PK
+    }
+
+    documentation_unit_region {
+        uuid documentation_unit_id PK
+        uuid region_id PK
+    }
+
+    file_number {
+        uuid id PK
+        character_varying value 
+        uuid documentation_unit_id FK
+    }
+
+    file_number_deviating {
+        uuid id PK
+        character_varying value 
+        uuid documentation_unit_id FK
+    }
+
+    flyway_schema_history {
+        integer installed_rank PK
+        character_varying version 
+        character_varying description 
+        character_varying type 
+        character_varying script 
+        integer checksum 
+        character_varying installed_by 
+        timestamp_without_time_zone installed_on 
+        integer execution_time 
+        boolean success 
+    }
+
+    grounds {
+        text value 
+        uuid documentation_unit_id FK
+    }
+
+    headline {
+        text value 
+        uuid documentation_unit_id FK
+    }
+
+    judicial_body {
+        uuid id PK
+        character_varying name 
+        uuid numeric_figure_id FK
+    }
+
+    keyword {
+        uuid id PK
+        character_varying value 
+    }
+
+    norm_abbreviation {
+        uuid id PK
+        character_varying abbreviation 
+        date decision_date 
+        bigint document_id 
+        character_varying document_number 
+        character_varying official_letter_abbreviation 
+        text official_long_title 
+        text official_short_title 
+        character_varying source 
+    }
+
+    norm_abbreviation_document_type {
+        uuid norm_abbreviation_id PK
+        uuid document_type_id PK
+    }
+
+    norm_abbreviation_region {
+        uuid norm_abbreviation_id PK
+        uuid region_id PK
+    }
+
+    norm_element {
+        uuid id PK
+        character_varying label 
+        boolean has_number_designation 
+        character_varying norm_code 
+        uuid document_category_id FK
+    }
+
+    numeric_figure {
+        uuid id PK
+        character_varying from_value 
+        character_varying to_value 
+        character_varying type 
+    }
+
+    region {
+        uuid id PK
+        character_varying code 
+        character_varying label 
+    }
+
+    related_documentation {
+        uuid id PK
+        character_varying court_location 
+        character_varying court_type 
+        date date 
+        character_varying document_number 
+        character_varying document_type 
+        character_varying file_number 
+        character_varying dtype 
+        uuid documentation_unit_id FK
+    }
+
+    synonym {
+        uuid id PK
+        character_varying label 
+        character_varying type 
+    }
+
+    tenor {
+        text value 
+        uuid documentation_unit_id FK
+    }
+
+    court }o--|| address : "address_id"
+    court_synonym }o--|| court : "court_id"
+    court_region }o--|| court : "court_id"
+    court_judicial_body }o--|| court : "court_id"
+    court_judicial_body }o--|| judicial_body : "judicial_body_id"
+    court_region }o--|| region : "region_id"
+    court_synonym }o--|| synonym : "synonym_id"
+    decision_grounds }o--|| documentation_unit : "documentation_unit_id"
+    norm_element }o--|| document_category : "document_category_id"
+    document_type }o--|| document_category : "document_category_id"
+    norm_abbreviation_document_type }o--|| document_type : "document_type_id"
+    documentation_unit }o--|| document_type : "document_type_id"
+    documentation_unit }o--|| documentation_office : "documentation_office_id"
+    tenor }o--|| documentation_unit : "documentation_unit_id"
+    headline }o--|| documentation_unit : "documentation_unit_id"
+    grounds }o--|| documentation_unit : "documentation_unit_id"
+    related_documentation }o--|| documentation_unit : "documentation_unit_id"
+    documentation_unit_region }o--|| documentation_unit : "documentation_unit_id"
+    documentation_unit_keyword }o--|| documentation_unit : "documentation_unit_id"
+    file_number_deviating }o--|| documentation_unit : "documentation_unit_id"
+    file_number }o--|| documentation_unit : "documentation_unit_id"
+    documentation_unit_keyword }o--|| keyword : "keyword_id"
+    documentation_unit_region }o--|| region : "region_id"
+    judicial_body }o--|| numeric_figure : "numeric_figure_id"
+    norm_abbreviation_document_type }o--|| norm_abbreviation : "norm_abbreviation_id"
+    norm_abbreviation_region }o--|| norm_abbreviation : "norm_abbreviation_id"
+    norm_abbreviation_region }o--|| region : "region_id"
