@@ -6,6 +6,6 @@ nav_order: 2
 ---
 
 # ER diagrams for `ris-data-migration`
-Raw files: [https://github.com/digitalservicebund/ris-reports/tree/main/entity-relationship-diagrams/ris-data-migration](https://github.com/digitalservicebund/ris-reports/tree/main/entity-relationship-diagrams/ris-data-migration)
+All files: [https://github.com/digitalservicebund/ris-reports/tree/main/entity-relationship-diagrams/ris-data-migration](https://github.com/digitalservicebund/ris-reports/tree/main/entity-relationship-diagrams/ris-data-migration)
 
 ## Last changes
