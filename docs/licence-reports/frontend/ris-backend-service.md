@@ -2,6 +2,7 @@
 layout: default
 title: ris-backend-service
 parent: Frontend Licence Reports
+grand_parent: Licence Reports
 nav_order: 1
 ---
 
