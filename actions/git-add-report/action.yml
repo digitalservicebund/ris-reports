@@ -18,7 +18,7 @@ runs:
         extension=${filepath##*.}
         echo "DIRECTORY=$directory" >> $GITHUB_ENV
         echo "EXTENSION=$extension" >> $GITHUB_ENV
-        cp ${{ inputs.filePath }} ${{ inputs.destinationDir }}/latest.${{ env.EXTENSION }}
+        cp ${{ inputs.filePath }} ${{ inputs.destinationDir }}/latest.$extension
     - name: Check if report has changed
       shell: bash
       id: file-check
