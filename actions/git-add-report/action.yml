@@ -8,27 +8,32 @@ inputs:
     description: 'The destination directory for the report type. Every report has to be in its own directory. The directory must exist.'
     required: true
 runs:
-  - name: Prepare report committing
-    run: |
-      filepath=${{ inputs.filePath }}
-      directory=$(dirname $filepath)
-      extension=${filepath##*.}
-      echo "DIRECTORY=$directory" >> $GITHUB_ENV
-      echo "EXTENSION=$extension" >> $GITHUB_ENV
-      cp ${{ inputs.filePath }} ${{ inputs.destinationDir }}/latest.${{ env.EXTENSION }}
-  - name: Check if report has changed
-    id: file-check
-    run: |
-      if git status -s | grep latest.${{ env.EXTENSION }}; then
-        echo "file_changed=true" >> $GITHUB_OUTPUT
-      else
-        echo "file_changed=false" >> $GITHUB_OUTPUT
-      fi
-    working-directory: ${{ inputs.destinationDir }}
-  - name: Commit report
-    run: |
-      NOW=$(TZ=Europe/Berlin date +'%Y-%m-%dT%H%M%S')
-      cp latest.${{ env.EXTENSION }} $NOW.${{ env.EXTENSION }}
-      git add latest.${{ env.EXTENSION }} $NOW.${{ env.EXTENSION }}
-    if: steps.file-check.outputs.file_changed == 'true'
-    working-directory: ${{ inputs.destinationDir }}
+  using: 'composite'
+  steps:
+    - name: Prepare report committing
+      shell: bash
+      run: |
+        filepath=${{ inputs.filePath }}
+        directory=$(dirname $filepath)
+        extension=${filepath##*.}
+        echo "DIRECTORY=$directory" >> $GITHUB_ENV
+        echo "EXTENSION=$extension" >> $GITHUB_ENV
+        cp ${{ inputs.filePath }} ${{ inputs.destinationDir }}/latest.${{ env.EXTENSION }}
+    - name: Check if report has changed
+      shell: bash
+      id: file-check
+      run: |
+        if git status -s | grep latest.${{ env.EXTENSION }}; then
+          echo "file_changed=true" >> $GITHUB_OUTPUT
+        else
+          echo "file_changed=false" >> $GITHUB_OUTPUT
+        fi
+      working-directory: ${{ inputs.destinationDir }}
+    - name: Commit report
+      shell: bash
+      run: |
+        NOW=$(TZ=Europe/Berlin date +'%Y-%m-%dT%H%M%S')
+        cp latest.${{ env.EXTENSION }} $NOW.${{ env.EXTENSION }}
+        git add latest.${{ env.EXTENSION }} $NOW.${{ env.EXTENSION }}
+      if: steps.file-check.outputs.file_changed == 'true'
+      working-directory: ${{ inputs.destinationDir }}
