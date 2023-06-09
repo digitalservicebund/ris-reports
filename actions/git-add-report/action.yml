@@ -7,6 +7,10 @@ inputs:
   destinationDir:
     description: 'The destination directory for the report type. Every report has to be in its own directory. The directory must exist.'
     required: true
+  keepAllVersions:
+    description: 'Whether to keep timestamped version if set to true. Otherwise only the latest version will be saved and overwritten.'
+    default: 'true'
+    required: false
 runs:
   using: 'composite'
   steps:
@@ -29,11 +33,17 @@ runs:
           echo "file_changed=false" >> $GITHUB_OUTPUT
         fi
       working-directory: ${{ inputs.destinationDir }}
-    - name: Commit report
+    - name: Add latest report
+      shell: bash
+      run: |
+        git add latest.${{ env.EXTENSION }}
+      if: steps.file-check.outputs.file_changed == 'true'
+      working-directory: ${{ inputs.destinationDir }}
+    - name: Add timestamped report
       shell: bash
       run: |
         NOW=$(TZ=Europe/Berlin date +'%Y-%m-%dT%H%M%S')
         cp latest.${{ env.EXTENSION }} $NOW.${{ env.EXTENSION }}
-        git add latest.${{ env.EXTENSION }} $NOW.${{ env.EXTENSION }}
-      if: steps.file-check.outputs.file_changed == 'true'
+        git add $NOW.${{ env.EXTENSION }}
+      if: steps.file-check.outputs.file_changed == 'true' && keepAllVersions == 'true'
       working-directory: ${{ inputs.destinationDir }}
