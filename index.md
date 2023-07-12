@@ -48,7 +48,7 @@ jobs:
           filePath: tmp/erdiagram-reports/latest.mmd
           destinationDir: entity-relationship-diagrams/ris-backend-service
       - name: Push reports
-        # wrap 'github.event.head_commit.message' into a `toJSON(...)` below to escape double quotation marks
+        # wrap `github.event.head_commit.message` into a `toJSON(...)` below to escape double quotation marks
         run: |
           git diff-index --cached --quiet HEAD ||
             git commit \
