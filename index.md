@@ -48,10 +48,11 @@ jobs:
           filePath: tmp/erdiagram-reports/latest.mmd
           destinationDir: entity-relationship-diagrams/ris-backend-service
       - name: Push reports
+        # we use `toJSON(...)` below to escape double quotation marks
         run: |
           git diff-index --cached --quiet HEAD ||
             git commit \
-              -m "${{ github.event.head_commit.message }}" \
+              -m ${{ toJSON(github.event.head_commit.message) }} \
               -m "From commit: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}" &&
             git push origin main &&
             echo "Pushed reports to ${{ github.server_url }}/${{ env.REPORTS_REPOSITORY }}" >> $GITHUB_STEP_SUMMARY
