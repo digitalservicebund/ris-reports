@@ -49,11 +49,10 @@ jobs:
           destinationDir: entity-relationship-diagrams/ris-backend-service
       - name: Push reports
         # we use `toJSON(...)` below to escape double quotation marks
-        # remove single quotes from that line (otherwise this site would try to evaluate the variable)
         run: |
           git diff-index --cached --quiet HEAD ||
             git commit \
-              -m ${{ 'toJSON(github.event.head_commit.message)' }} \
+              -m $toJSON({{ toJSON(github.event.head_commit.message) }}) \
               -m "From commit: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}" &&
             git push origin main &&
             echo "Pushed reports to ${{ github.server_url }}/${{ env.REPORTS_REPOSITORY }}" >> $GITHUB_STEP_SUMMARY
